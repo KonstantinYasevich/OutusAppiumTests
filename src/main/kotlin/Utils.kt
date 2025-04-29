@@ -1,3 +1,9 @@
+import io.appium.java_client.AppiumDriver
+import org.openqa.selenium.OutputType
+import java.awt.Color
+import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
+import javax.imageio.ImageIO
 import kotlin.random.Random
 
 class Utils {
@@ -19,6 +25,14 @@ class Utils {
                 return (1..length)
                     .map { chars.random() }
                     .joinToString("")
+        }
+
+        fun getPixelColor(driver: AppiumDriver, x: Int, y: Int): java.awt.Color? {
+            // Сделать скриншот
+            val screenshotBytes = driver.getScreenshotAs(OutputType.BYTES)
+            val image: BufferedImage = ImageIO.read(ByteArrayInputStream(screenshotBytes))
+            // Получить цвет пикселя
+            return Color(image.getRGB(x, y))
         }
     }
 }
